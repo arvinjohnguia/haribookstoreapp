@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+Inventory Summary
+{% endblock %}
+
+{% block content %}
+    <h1>HBS | Inventory Summary</h1>
+    <a href="/users/addProduct" class="btn btn-primary mb-3">Add a Product</a>
+    <form action="searchForProduct" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchForProduct" placeholder="Search for Product" required>
+            <div class="input-group-append">
+                <button class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
+    <!--  if user_list   | for users page use this -->
+    {% if page_obj %} <!-- for products use this -->
+        <div class="table-responsive">
+            <table class="table text-center align-middle mt-2">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity/ Stocks Left</th>
+                        <th>Total Quantity Sold</th>
+                        <th>Total Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--  if user_list   | for users page use this -->
+                    {% for inventory in page_obj %} <!-- for products use this -->
+                        
+                        <tr>
+                            <td class="text-center">
+                                <a href ="{% url 'users:productDetails' inventory.id %}">
+                                    <img src="media/{{ inventory.pro_image }}" alt ="pro_image" width="50px" height="50px" class="rounded">
+                                </a>
+                            </td>    
+                            <td>{{ inventory.pro_code }}</td>
+                            <td>{{ inventory.pro_name }}</td>
+                            <td>{{ inventory.pro_category }}</td>
+                            <td>₱{{ inventory.pro_price }}</td>
+                            <td>{{ inventory.pro_quantity }}</td>
+                            <td>{{ inventory.pro_totalsold }}</td>
+                            <td>{{ inventory.pro_totalsales }}</td>
+                        </tr>
+                       
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- FOR PAGINATION | Gamitin sa all products page-->
+            <div class="middlecenter">
+                <ul class="pagination text-center">
+                    {% if page_obj.has_previous %} <!-- check kung meron ba syang previous value; para lumabas yung first -->
+                        <li class="page-item"><a href="?page=1" class="page-link">&laquo; First</a></li>
+                        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>            
+                    {% endif %}
+    
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                        <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+        </div>
+        {% else %}
+        <p><br><br>No Records Available :(</p>
+    {% endif %}
+
+{% endblock %}

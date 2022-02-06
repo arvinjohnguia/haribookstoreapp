@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ user.user_fname }} {{ user.user_lname }}
+{% endblock %}
+
+{% if error_message %}
+ <p class="alert alert-danger">
+     <strong>{{ error_message }}</strong>
+ </p>
+{% endif %}
+
+{% block content %}
+<a href="/users/employeeList" class="btn btn-outline-primary mb-5">Go Back</a>
+<div>
+    <div style="float:right;">
+        <img src="/users/media/{{ user.user_image }}" alt="profile_picture" class="rounded-circle m-lg-2" height="180px" width="180px"/>
+    </div>
+    <h1>  {{ user.user_fname }} {{ user.user_lname }} </h1>
+    <p>Email : {{ user.user_email }}</p>
+</div>
+
+<hr>
+<p><strong>Address : </strong>{{ user.user_address }}</p>
+<p><strong>Contact Number : </strong>{{ user.user_contactnumber }}</p>
+<p><strong>Birthdate : </strong>{{ user.user_birthdate }}</p>
+<p><strong>Gender : </strong>{{ user.user_gender }}</p>
+
+<hr>
+<div class="table-responsive">
+    <table class="table text-center align-middle">
+        <tr>
+            <th>College</th>
+            <th>Year</th>
+            <th>Course</th>
+        </tr>
+        <tr>
+            <td>{{ user.user_college }}</td>
+            <td>{{ user.user_year }}</td>
+            <td>{{ user.user_course }}</td>
+        </tr>
+    </table>
+</div>
+
+<div style="text-align: center;">
+    <div class="btn-group mt-5">
+        <a href="{% url 'users:deleteUser' user.id%}" class="btn btn-lg btn-danger">Delete</a>
+        <a href="{% url 'users:editUser' user.id%}" class="btn btn-lg btn-warning">Edit</a>
+        <a href="{% url 'users:employeeList' %}" class="btn btn-lg btn-success">Return</a>
+    </div>
+</div>
+
+{% endblock %}

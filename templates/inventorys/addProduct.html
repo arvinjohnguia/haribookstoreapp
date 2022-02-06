@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} Add New User {% endblock %}
+
+{% if error_message %}
+    <p class="alert alert-danger">
+        <strong>{{ error_message }}</strong>
+    </p>
+{% endif %}
+
+{% block content %}
+    <form action="{% url 'users:processAddProduct' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %} <!-- cross-site request forgery--><!-- for security purposes -->
+        <div class="form-group">
+            <label for="procode">Product Code</label>
+            <input type="text" name="procode" id="procode" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="proname">Product Name</label>
+            <input type="text" name="proname" id="proname" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="procategory">Category</label>
+            <select name="procategory" id="procategory" class="form-control">
+                <option value="Unassigned">Unassigned</option>
+                <option value="Filing Supplies">Filing Supplies</option>
+                <option value="Paper Supplies">Paper Supplies</option>
+                <option value="School and Office Essentials">School and Office Essentials</option>
+                <option value="Writing Supplies">Writing Supplies</option>
+                <option value="Books">Books</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="proprice">Price</label>
+            <input type="number" name="proprice" id="proprice" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="proquantity">Stocks Left</label>
+            <input type="number" name="proquantity" id="proquantity" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="prosold">Quantity Sold</label>
+            <input type="number" name="prosold" id="prosold" class="form-control" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="prototalsales">Total Sale</label>
+            <input type="number" name="prototalsales" id="prototalsales" class="form-control" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="proimage">Product Image</label>
+            <input type="file" name="proimage" id="proimage" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Add Product</button>
+
+    </form>              
+{% endblock %}

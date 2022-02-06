@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ inventory.pro_name }}
+{% endblock %}
+
+{% if error_message %}
+ <p class="alert alert-danger">
+     <strong>{{ error_message }}</strong>
+ </p>
+{% endif %}
+
+{% block content %}
+<a href="/users/inventorySummary" class="btn btn-outline-primary mb-5">Go Back</a>
+
+<div>
+    <div style="text-align:center;">
+        <img src="/users/media/{{ inventory.pro_image }}" alt="profile_picture" class="rounded m-lg-2" height="300px" width="300px"/>
+        <h1>{{ inventory.pro_name }} </h1>
+        <p><strong>Code : </strong>{{ inventory.pro_code }}</p>
+    </div>
+    
+
+    <div style="text-align: center;">
+        <div class="btn mt-2">
+            <a href="{% url 'users:editProduct' inventory.id%}" class="btn btn-warning btn-lg">Edit Product Information</a><br>
+            <a href="{% url 'users:deleteProduct' inventory.id%}" class="btn btn-outline-danger btn-lg mt-1"><small>Delete {{ inventory.pro_name }}</small></a>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<table class="table product-table" ">
+    <tr>
+        <td><strong>Price : </strong></td>
+        <td>₱{{ inventory.pro_price }}</td>
+    </tr>
+    <tr>
+        <td><strong>Category : </strong></td>
+        <td>{{ inventory.pro_category  }}</td>
+    </tr>
+    <tr>
+        <td><strong>Quantity/ Stocks Left : </strong></td>
+        <td>{{ inventory.pro_quantity }}</td>
+    </tr>
+    <tr>
+        <td><strong>Quantity Sold : </strong></td>
+        <td>{{ inventory.pro_sold  }}</td>
+    </tr>
+    <tr>
+        <td><strong>Total Quantity Sold : </strong></td>
+        <td>{{ inventory.pro_totalsold  }}</td>
+    </tr>
+    <tr>
+        <td><strong>Total Sales: </strong></td>
+        <td>₱{{ inventory.pro_totalsales  }}</td>
+    </tr>
+</table>
+
+
+
+<form action=" inventory.id" method="post">
+    <div class="form-group">
+        <label for="prosold">Input Number of <u>{{ inventory.pro_category }} - {{ inventory.pro_name }}</u> sold  </label>
+        <input type="number" name="prosold" id="prosold" class="form-control" value="{{ inventory.pro_sold }}">
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Submit</button>
+</form>
+
+<br><br>
+
+
+
+
+{% endblock %}

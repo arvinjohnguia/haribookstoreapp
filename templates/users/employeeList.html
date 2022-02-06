@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+Employees Overview
+{% endblock %}
+
+
+{% block content %}
+    <h1>HBS | Employees Overview</h1>
+    <a href="/users/addUser" class="btn btn-primary mb-3">Add New Employee</a>
+    <form action="{% url 'users:searchForUser' %}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchForUser" placeholder="Search for Employee" required>
+            <div class="input-group-append">
+                <button class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
+    <!--  if user_list   | for users page use this -->
+    {% if page_obj %} <!-- for products use this -->
+        <div class="table-responsive">
+            <table class="table text-center align-middle mt-2">
+                <thead>
+                    <tr>
+                        <th>Profile Picture</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>College</th>
+                        <th>Year</th>
+                        <th>Course</th>
+                        <th>Address</th>
+                        <th>Gender</th>  
+                        <th>Birthdate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--  if user_list   | for users page use this -->
+                    {% for user in page_obj %} <!-- for products use this -->
+                        <tr>
+                            <td class="text-center"><a href ="{% url 'users:userDetails' user.id %}"><img src="media/{{ user.user_image }}" alt ="userimage" width="80px" height="80px" class="rounded-circle"></a></td>
+                            <td>{{ user.user_fname }}</td>
+                            <td>{{ user.user_lname }}</td>
+                            <td>{{ user.user_email }}</td>
+                            <td>{{ user.user_contactnumber }}</td>
+                            <td>{{ user.user_college }}</td>
+                            <td>{{ user.user_year }}</td>
+                            <td>{{ user.user_course }}</td>
+                            <td>{{ user.user_address }}</td>
+                            <td>{{ user.user_gender }}</td>
+                            <td>{{ user.user_birthdate }}</td>                    
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- FOR PAGINATION | Gamitin sa all products page-->
+            <ul class="pagination">
+                {% if page_obj.has_previous %} <!-- check kung meron ba syang previous value; para lumabas yung first -->
+                    <li class="page-item"><a href="?page=1" class="page-link">&laquo; First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>            
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% else %}
+        <p><br><br>No Records Available :(</p>
+    {% endif %}
+
+{% endblock %}
